@@ -170,3 +170,15 @@ body { background: var(--white); color: var(--ink); font: 400 17px/1.6 var(--tex
   .router, .doctors, .why, .contacts { padding: 70px 0; }
   .form { padding: 22px; }
 }
+
+/* Фишка: при прокрутке слои расходятся по глубине — жёлтый гребень дальше всех, собака ближе всех.
+   Конечная точка без начальной — движение прокрутки ложится поверх появления pop. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .pets > * { animation: pop .9s cubic-bezier(.2, .8, .2, 1) both, depth linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 100vh; }
+    .pets__dog { animation-delay: .1s, 0s; --d: -50px; }
+    .pets__cat { animation-delay: .2s, 0s; --d: -10px; }
+    .pets__crest { --d: 60px; }
+    @keyframes depth { to { translate: 0 var(--d); } }
+  }
+}
